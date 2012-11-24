@@ -19,6 +19,24 @@
             },
             eventClick:function(event){
                 showEvent(event)
+            },
+            eventResize:function(event, dayDelta){
+                var data = {};
+                for(attr in event){
+                    if(!$.isPlainObject(event[attr])){
+                        data[attr] = event[attr]                        
+                    }
+                }
+                saveEvent(event, {'event': data})
+            },
+            eventDrop:function(event, dayDelta){
+                var data = {};
+                for(attr in event){
+                    if(!$.isPlainObject(event[attr])){
+                        data[attr] = event[attr]                        
+                    }
+                }
+                saveEvent(event, {'event': data})
             }
         }) 
     })
@@ -33,24 +51,8 @@
                 buttons:{
                     Guardar:function(){
                         var data = dialog.find('form:first').serialize()
-                        $.post(module_url + 'event/save/' + id, data, function(json){
-                            if(null == event){ 
-                                var action = 'renderEvent'
-                                event = json
-                            }else{
-                                var action = 'updateEvent' 
-                                for(attr in json){
-                                    event[attr] = json[attr]
-                                }
-                            }
-                            $("#calendario").fullCalendar(action, event)
-                            console.log(json)
-                            $(dialog).dialog('close')
-                        }, 'json').error(function(error){
-                            console.log(error.responseText)
-                            alert($.parseJSON(error.responseText).message)
-                        })
-                                 
+                        saveEvent(event, data)
+                        $(dialog).dialog('close')
                     },
                     Cancelar:function(){
                         $(dialog).dialog('close')
@@ -64,6 +66,25 @@
                 dialog.find('form:first #event_start').val(startDate)
                 dialog.find('form:first #event_end').val(endDate)                
             }
+        })
+    }
+    
+    function saveEvent(event, data)
+    {
+        $.post(module_url + 'event/save', data, function(json){
+            if(null == event){ 
+                var action = 'renderEvent'
+                event = json
+            }else{
+                var action = 'updateEvent' 
+                for(attr in json){
+                    event[attr] = json[attr]   
+                }
+            }
+            $("#calendario").fullCalendar(action, event)
+        }, 'json').error(function(error){
+            console.log(error.responseText)
+            alert($.parseJSON(error.responseText).message)
         })
     }
 </script>

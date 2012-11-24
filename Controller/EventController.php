@@ -47,29 +47,24 @@ class EventController extends Controller
         $this->form = $form;
     }
 
-    public function save($id = null)
+    public function save()
     {
-        if (null !== $id) {
-            if (!$event = Event::findByPK((int) $id)) {
-                return new JsonResponse(array(
-                            'message' => "No existe el Evento con id = $id"
-                                ), 404);
-            }
-        } else {
-            $event = new Event();
-        }
-
         if ($this->getRequest()->isMethod('post')) {
 
+            $data = (array) $this->getRequest()->get('event');
 
-            $data = $this->getRequest()->get('event');
-
-            if (isset($data['id'])) {
-                unset($data['id']);
+            if (isset($data['id']) && null != $data['id']) {
+                if (!$event = Event::findByPK((int) $data['id'])) {
+                    return new JsonResponse(array(
+                                'message' => "No existe el Evento con id = {$data['id']}"
+                                    ), 404);
+                }
+            } else {
+                $event = new Event();
             }
 
             if ($event->save($data)) {
-                return new JsonResponse((array) $event);
+                return new JsonResponse(get_object_vars($event));
             } else {
                 return new JsonResponse(array(
                             'message' => 'No se pudo Guardar El Evento',
