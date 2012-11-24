@@ -1,17 +1,12 @@
 <div class="k2_calendar_form">    
-<?php KumbiaPHP\View\View::content(true) ?>
-<?php echo $form->open() ?>
-<dl>
-    <?php foreach ($form->getFields() as $field): ?>
-        <dd><label><?php echo $field['label'] ?></label></dd>
-        <dt><?php echo $field ?></dt>
-    <?php endforeach; ?>
-</dl>
-<?php echo $form->close() ?>
+    <?php KumbiaPHP\View\View::content(true) ?>
+    <?php echo $form->open() ?>
+    <div class="k2_calendar_errors ui-state-error ui-corner-all"></div>
+    <dl>
+        <?php foreach ($form->getFields() as $field): ?>
+            <dd><label><?php echo $field['label'] ?></label></dd>
+            <dt><?php echo $field ?></dt>
+        <?php endforeach; ?>
+    </dl>
+    <?php echo $form->close() ?>
 </div>
-<style>
-    .k2_calendar_form dd{margin: 10px 0 0 0;font-weight: bold;}
-    .k2_calendar_form dt *{width: 100%}
-    .k2_calendar_form textarea{min-height: 80px}
-    .k2_calendar_form [type=color]{width: 30px}
-</style>

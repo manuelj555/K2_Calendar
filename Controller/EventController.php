@@ -18,6 +18,21 @@ class EventController extends Controller
         }
     }
 
+    public function index()
+    {
+        $start = $this->getRequest()->get('start');
+        $end = $this->getRequest()->get('end');
+
+        $query = Event::createQuery();
+
+        $query->where('date(start) >= date(:start) AND date(end) <= date(:end)')
+                ->bind(array(
+                    'start' => Event::dateFormat($start),
+                    'end' => Event::dateFormat($end),
+                ));
+        return new JsonResponse(Event::findAll('array'));
+    }
+
     public function form($idEvent = null)
     {
         if (null !== $idEvent) {
@@ -68,7 +83,7 @@ class EventController extends Controller
             } else {
                 return new JsonResponse(array(
                             'message' => 'No se pudo Guardar El Evento',
-                            'errros' => $event->getErrors(),
+                            'errors' => $event->getErrors(),
                                 ), 500);
             }
         }
@@ -88,7 +103,7 @@ class EventController extends Controller
         } else {
             return new JsonResponse(array(
                         'message' => 'No se pudo Eliminar El Evento',
-                        'errros' => $event->getErrors(),
+                        'errors' => $event->getErrors(),
                             ), 500);
         }
     }

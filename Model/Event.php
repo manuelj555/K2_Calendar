@@ -9,12 +9,21 @@ use KumbiaPHP\ActiveRecord\ActiveRecord;
 class Event extends ActiveRecord
 {
 
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+
     protected $connection = 'k2_calendar';
 
-    protected function beforeSave()
+    protected
+
+    function beforeSave()
     {
-        $this->end = trim(substr(trim($this->end), 0, 33));
-        $this->start = trim(substr(trim($this->start), 0, 33));
+        $this->start = self::dateFormat($this->start);
+        $this->end = self::dateFormat($this->end);
+    }
+    
+    public static function dateFormat($date)
+    {
+        return date(self::DATE_FORMAT, strtotime(substr($date, 0, 24)));
     }
 
 }
