@@ -1,0 +1,69 @@
+<?php Tag::css('calendar/fullcalendar') ?>
+<?php Tag::css('calendar/jquery-ui.custom.min') ?>
+<?php Tag::js('calendar/jquery-ui.custom.min') ?>
+<?php Tag::js('calendar/fullcalendar.min') ?>
+<?php KumbiaPHP\View\View::content(true) ?>
+<?php KumbiaPHP\View\View::content(true) ?>
+<h2>Probando el Calendario</h2>
+<div id="calendario"></div>
+
+<script type="text/javascript">
+    var module_url = "<?php echo KumbiaPHP\View\View::app()->createUrl('K2/Calendar:') ?>";
+    $(function(){
+        $("#calendario").fullCalendar({
+            events: <?php echo $events ?>,
+            selectable: true,
+            editable: true,
+            select:function( startDate, endDate, allDay){
+                showEvent(null, startDate, endDate);
+            },
+            eventClick:function(event){
+                showEvent(event)
+            }
+        }) 
+    })
+    
+    function showEvent(event, startDate, endDate){
+        var id = (null != event) ? event.id : '';
+        var dialog = $('<div/>').load(module_url + 'event/form/' + id,function(){
+            dialog.dialog({
+                title:'Registro de Evento',
+                width: 500,
+                modal: true,
+                buttons:{
+                    Guardar:function(){
+                        var data = dialog.find('form:first').serialize()
+                        $.post(module_url + 'event/save/' + id, data, function(json){
+                            if(null == event){ 
+                                var action = 'renderEvent'
+                                event = json
+                            }else{
+                                var action = 'updateEvent' 
+                                for(attr in json){
+                                    event[attr] = json[attr]
+                                }
+                            }
+                            $("#calendario").fullCalendar(action, event)
+                            console.log(json)
+                            $(dialog).dialog('close')
+                        }, 'json').error(function(error){
+                            console.log(error.responseText)
+                            alert($.parseJSON(error.responseText).message)
+                        })
+                                 
+                    },
+                    Cancelar:function(){
+                        $(dialog).dialog('close')
+                    }
+                },
+                close:function(){
+                    $(this).remove()
+                }
+            })
+            if (undefined != startDate && undefined != endDate){
+                dialog.find('form:first #event_start').val(startDate)
+                dialog.find('form:first #event_end').val(endDate)                
+            }
+        })
+    }
+</script>
