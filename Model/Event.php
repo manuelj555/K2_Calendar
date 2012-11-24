@@ -11,6 +11,12 @@ class Event extends ActiveRecord
 
     protected $connection = 'k2_calendar';
 
+    protected function beforeSave()
+    {
+        $this->end = trim(substr(trim($this->end), 0, 33));
+        $this->start = trim(substr(trim($this->start), 0, 33));
+    }
+
 }
 
 if (!Config::has('k2_calendar')) {

@@ -77,4 +77,20 @@ class EventController extends Controller
                         ), 404);
     }
 
+    public function remove($id)
+    {
+        $event = new Event();
+
+        if ($event->deleteByPK($id)) {
+            return new JsonResponse(array(
+                        'message' => "El Evento fué eliminado"
+                    ));
+        } else {
+            return new JsonResponse(array(
+                        'message' => 'No se pudo Eliminar El Evento',
+                        'errros' => $event->getErrors(),
+                            ), 500);
+        }
+    }
+
 }

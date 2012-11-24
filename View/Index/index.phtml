@@ -44,6 +44,10 @@
     function showEvent(event, startDate, endDate){
         var id = (null != event) ? event.id : '';
         var dialog = $('<div/>').load(module_url + 'event/form/' + id,function(){
+            dialog.find('form:first').on('submit',function(event){
+                event.preventDefault()
+                dialog.dialog('option','buttons').Guardar()
+            })
             dialog.dialog({
                 title:'Registro de Evento',
                 width: 500,
@@ -52,14 +56,19 @@
                     Guardar:function(){
                         var data = dialog.find('form:first').serialize()
                         saveEvent(event, data)
-                        $(dialog).dialog('close')
+                        dialog.dialog('close')
                     },
                     Cancelar:function(){
-                        $(dialog).dialog('close')
+                        dialog.dialog('close')
+                    },
+                    Remover:function(){
+                        deleteEvent(dialog.find('form:first #event_id').val())
+                        dialog.dialog('close')
                     }
                 },
                 close:function(){
-                    $(this).remove()
+                    dialog.find('form:first').off()
+                    dialog.remove()
                 }
             })
             if (undefined != startDate && undefined != endDate){
@@ -82,6 +91,15 @@
                 }
             }
             $("#calendario").fullCalendar(action, event)
+        }, 'json').error(function(error){
+            console.log(error.responseText)
+            alert($.parseJSON(error.responseText).message)
+        })
+    }
+    
+    function deleteEvent(id){
+        $.getJSON(module_url + 'event/remove/' + id,{}, function(json){
+            $("#calendario").fullCalendar('removeEvents', id)
         }, 'json').error(function(error){
             console.log(error.responseText)
             alert($.parseJSON(error.responseText).message)
