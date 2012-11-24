@@ -1,0 +1,28 @@
+<?php
+Tag::css('calendar/fullcalendar');
+Tag::css('calendar/jquery-ui.custom.min');
+Tag::js('calendar/jquery-ui.custom.min');
+Tag::js('calendar/fullcalendar.min');
+Tag::js('calendar/k2_calendar');
+
+isset($id) || $id = 'k2_calendar_container_' . uniqid();
+?>
+<div id="<?php echo $id ?>">
+    <div class="k2_calendar_errors ui-state-error ui-corner-all"></div>
+    <div class="k2_calendar"></div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        if(undefined == module_url){
+            var module_url = "<?php echo KumbiaPHP\View\View::app()->createUrl('K2/Calendar:') ?>";    
+        }        
+        new K2Calendar("#<?php echo $id ?>", module_url);
+    })
+</script>
+<style>
+    .k2_calendar_form dd{margin: 10px 0 0 0;font-weight: bold;}
+    .k2_calendar_form dt *{width: 100%}
+    .k2_calendar_form textarea{min-height: 80px}
+    .k2_calendar_form [type=color]{width: 80px}
+    .k2_calendar_errors{padding-left: 10px;display: none}
+</style>
