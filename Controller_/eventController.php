@@ -7,7 +7,7 @@ use K2\Calendar\Model\Event;
 use KumbiaPHP\Kernel\JsonResponse;
 use KumbiaPHP\Kernel\Controller\Controller;
 
-class EventController extends Controller
+class eventController extends Controller
 {
 
     protected function beforeFilter()
@@ -18,7 +18,7 @@ class EventController extends Controller
         }
     }
 
-    public function index()
+    public function index_action()
     {
         $start = $this->getRequest()->get('start');
         $end = $this->getRequest()->get('end');
@@ -33,7 +33,7 @@ class EventController extends Controller
         return new JsonResponse(Event::findAll('array'));
     }
 
-    public function form($idEvent = null)
+    public function form_action($idEvent = null)
     {
         if (null !== $idEvent) {
             if (!$event = Event::findByPK((int) $idEvent)) {
@@ -62,7 +62,7 @@ class EventController extends Controller
         $this->form = $form;
     }
 
-    public function save()
+    public function save_action()
     {
         if ($this->getRequest()->isMethod('post')) {
 
@@ -92,7 +92,7 @@ class EventController extends Controller
                         ), 404);
     }
 
-    public function remove($id)
+    public function remove_action($id)
     {
         $event = new Event();
 
