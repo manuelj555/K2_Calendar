@@ -2,8 +2,7 @@
 
 namespace K2\Calendar\Controller;
 
-use K2\Calendar\Model\Event;
-use KumbiaPHP\Kernel\Controller\Controller;
+use K2\Kernel\Controller\Controller;
 
 class indexController extends Controller
 {

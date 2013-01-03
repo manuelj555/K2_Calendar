@@ -7,7 +7,7 @@ K2_Calendar
 Instalacion
 -----------
 
-Solo debemos descargar e instalar la lib en **vendor/K2/Calendar** y registrarla en el [AppKernel](https://github.com/manuelj555/k2/blob/master/doc/app_kernel.rst):
+Solo debemos descargar e instalar la lib en **vendor/k2/K2/Calendar** y registrarla en el [AppKernel](https://github.com/manuelj555/k2/blob/master/doc/app_kernel.rst):
 
 ```php
 
@@ -16,10 +16,8 @@ Solo debemos descargar e instalar la lib en **vendor/K2/Calendar** y registrarla
 protected function registerModules()
 {
     $modules = array(
-        'KumbiaPHP'   => __DIR__ . '/../../vendor/kumbiaphp/kumbiaphp/src/',
-        'Index'       => __DIR__ . '/modules/',
         ...
-        'K2/Calendar'   => __DIR__ . '/../../vendor/',
+        new K2\Calendar\Calendar(),
     );
 
     protected function registerRoutes()
@@ -58,10 +56,10 @@ Si deseamos incluir el calendario en una vista ó template particular, solo debe
 //lo podemos incluir en el head con un Tag::printJs("jquery/jquery.min");
 
 //solo se debe incluir el partial y queda listo.
-KumbiaPHP\View\View::partial("K2/Calendar:calendar");
+K2\View\View::partial("K2/Calendar:calendar");
 
 //Tambien podemos darle un id especifico al div contenedor del calendario:
-KumbiaPHP\View\View::partial("K2/Calendar:calendar", false, array('id' => 'mi_calendario'));
+K2\View\View::partial("K2/Calendar:calendar", false, array('id' => 'mi_calendario'));
 ```
 
 Si incluimos el partial en nuestra vista, se caragará allí el calendario, ademas podemos incluir el partial varias veceso, con lo que tendremos varios calendarios en una misma vista.

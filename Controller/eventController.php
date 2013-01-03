@@ -2,10 +2,10 @@
 
 namespace K2\Calendar\Controller;
 
-use KumbiaPHP\Form\Form;
+use K2\Form\Form;
 use K2\Calendar\Model\Event;
-use KumbiaPHP\Kernel\JsonResponse;
-use KumbiaPHP\Kernel\Controller\Controller;
+use K2\Kernel\JsonResponse;
+use K2\Kernel\Controller\Controller;
 
 class eventController extends Controller
 {

@@ -15,7 +15,7 @@ isset($id) || $id = 'k2_calendar_container_' . uniqid();
 <script type="text/javascript">
     $(function(){
         if(undefined == module_url){
-            var module_url = "<?php echo KumbiaPHP\View\View::app()->createUrl('K2/Calendar:') ?>";    
+            var module_url = "<?php echo K2\View\View::app()->createUrl('K2/Calendar:') ?>";    
         }        
         new K2Calendar("#<?php echo $id ?>", module_url);
     })

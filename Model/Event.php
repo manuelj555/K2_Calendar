@@ -4,14 +4,14 @@ namespace K2\Calendar\Model;
 
 use ActiveRecord\Config\Config;
 use ActiveRecord\Config\Parameters;
-use KumbiaPHP\ActiveRecord\ActiveRecord;
+use K2\ActiveRecord\ActiveRecord;
 
 class Event extends ActiveRecord
 {
 
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    protected $_connection = 'k2_calendar';
+    protected $connection = 'k2_calendar';
 
     protected function beforeSave()
     {
