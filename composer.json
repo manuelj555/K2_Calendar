@@ -1,0 +1,13 @@
+{
+    "name": "k2/calendar",
+    "type": "library",
+    "require":{
+        
+    },
+    "autoload": {
+        "psr-0":{ 
+            "K2\\Calendar\\": ""
+        }
+    },
+    "target-dir": "K2/Calendar"
+}
