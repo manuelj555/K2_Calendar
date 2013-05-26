@@ -1,0 +1,14 @@
+{% extends "default.twig" %}
+
+{% block css %}
+{{ parent() }}
+{{ calendar_css() }}
+{% endblock %}
+
+{% block javascript %}
+{{ calendar_js() }}
+{% endblock %}
+
+{% block content %}
+{{ calendar() }}
+{% endblock %}
