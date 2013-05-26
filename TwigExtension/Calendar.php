@@ -71,7 +71,7 @@ CSS;
         return $this->twig->render($view);
     }
 
-    public function js($view = null, $module_url = 'K2Calendar')
+    public function js($view = null, $controllerUrl = '@K2Calendar/event')
     {
         if (!$view) {
             $view = <<<JS
@@ -80,9 +80,9 @@ CSS;
 <script type="text/javascript" src="{{ asset("@K2Calendar/js/k2_calendar.js") }}"></script>
 <script type="text/javascript">
     $(function(){
-        {% set url = url(module=module_url) %}
+        {% set url = url(controller_url) %}
         {% for id in calendars %}
-            new K2Calendar("#{{ id }}", "{{ url }}");
+            new K2Calendar("#{{ id }}", "{{ url }}/");
         {% endfor %}
     })
 </script>
@@ -91,7 +91,7 @@ JS;
 
         return $this->twig->render($view, array(
             'calendars' => $this->calendars,
-            'module_url' => $module_url,
+            'controller_url' => $controllerUrl,
         ));
     }
 

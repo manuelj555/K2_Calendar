@@ -1,12 +1,16 @@
 <div class="k2_calendar_form">    
-    <?php K2\View\View::content(true) ?>
-    <?php echo $form->open() ?>
+    <form method="post" action="{{ url() }}">
+    {{ form_input('event.id', 'hidden') }}
+    {{ form_input('event.start', 'hidden') }}
+    {{ form_input('event.end', 'hidden') }}
     <div class="k2_calendar_errors ui-state-error ui-corner-all"></div>
     <dl>
-        <?php foreach ($form->getFields() as $field): ?>
-            <dd><label><?php echo $field['label'] ?></label></dd>
-            <dt><?php echo $field ?></dt>
-        <?php endforeach; ?>
+        <dd>{{ form_label('event.id', 'Título') }}</dd>
+        <dt>{{ form_input('event.title', attrs={required:true}) }}</dt>
+        <dd>{{ form_label('event.description', 'Descripción') }}</dd>
+        <dt>{{ form_textarea('event.description') }}</dt>
+        <dd>{{ form_label('event.color', 'Color del Evento') }}</dd>
+        <dt>{{ form_input('event.color', 'color', value="#3266cc") }}</dt>
     </dl>
-    <?php echo $form->close() ?>
+    </form>
 </div>

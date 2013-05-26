@@ -1,7 +1,7 @@
 var K2Calendar = function(container, baseUrl){    
     this.container = $(container);
     this.calendar = this.container.find('.k2_calendar');
-    this.baseUrl = baseUrl;
+    this.controllerUrl = baseUrl;
     
     var instance = this; 
     
@@ -18,7 +18,7 @@ var K2Calendar = function(container, baseUrl){
             right:  'month basicWeek agendaWeek prev,next'
         },
         events: function(start, end, callback){
-            $.get(instance.baseUrl + 'event',{
+            $.get(instance.controllerUrl + 'index',{
                 start: start,
                 end: end
             }, callback, 'json')
@@ -57,7 +57,7 @@ var K2Calendar = function(container, baseUrl){
     
     this.showEvent = function(event, startDate, endDate){
         var id = (null != event) ? event.id : '';
-        var dialog = $('<div/>').load(instance.baseUrl + 'event/form/' + id,function(){
+        var dialog = $('<div/>').load(instance.controllerUrl + 'form/' + id,function(){
             dialog.find('form:first').on('submit',function(event){
                 event.preventDefault()
                 dialog.dialog('option','buttons').Guardar()
@@ -96,7 +96,7 @@ var K2Calendar = function(container, baseUrl){
     
     this.saveEvent = function(event, data, dialog, callbackSuccess)
     {
-        $.post(instance.baseUrl + 'event/save', data, function(json){
+        $.post(instance.controllerUrl + 'save', data, function(json){
             if(null == event){ 
                 var action = 'renderEvent'
                 event = json
@@ -121,7 +121,7 @@ var K2Calendar = function(container, baseUrl){
     
     this.deleteEvent = function(id, dialog, callbackSuccess){
         if(0 != id.length){            
-            $.getJSON(instance.baseUrl + 'event/remove/' + id,{}, function(json){
+            $.getJSON(instance.controllerUrl + 'remove/' + id,{}, function(json){
                 instance.calendar.fullCalendar('removeEvents', id)
                 if ($.isFunction(callbackSuccess)){
                     callbackSuccess()
