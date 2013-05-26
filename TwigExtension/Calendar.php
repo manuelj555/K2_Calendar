@@ -38,6 +38,7 @@ class Calendar extends \Twig_Extension
                 'is_safe' => array('html'),
                     )
             ),
+            new \Twig_SimpleFunction('calendar_ids', array($this, 'getIds')),
         );
     }
 
@@ -52,10 +53,9 @@ class Calendar extends \Twig_Extension
         ));
     }
 
-    public function css($view = null)
+    public function css()
     {
-        if (!$view) {
-            $view = <<<CSS
+        $html = <<<CSS
 <link rel="stylesheet" href="{{ asset("@K2Calendar/css/fullcalendar.css") }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset("@K2Calendar/css/jquery-ui.custom.min.css") }}" type="text/css" />
 <style>
@@ -66,15 +66,13 @@ class Calendar extends \Twig_Extension
     .k2_calendar_errors{padding-left: 10px;display: none}
 </style>
 CSS;
-        }
 
-        return $this->twig->render($view);
+        return $this->twig->render($html);
     }
 
-    public function js($view = null, $controllerUrl = '@K2Calendar/event')
+    public function js($controllerUrl = '@K2Calendar/event')
     {
-        if (!$view) {
-            $view = <<<JS
+        $html = <<<JS
 <script type="text/javascript" src="{{ asset("@K2Calendar/js/jquery-ui.custom.min.js") }}"></script>
 <script type="text/javascript" src="{{ asset("@K2Calendar/js/fullcalendar.min.js") }}"></script>
 <script type="text/javascript" src="{{ asset("@K2Calendar/js/k2_calendar.js") }}"></script>
@@ -87,12 +85,16 @@ CSS;
     })
 </script>
 JS;
-        }
 
-        return $this->twig->render($view, array(
-            'calendars' => $this->calendars,
-            'controller_url' => $controllerUrl,
+        return $this->twig->render($html, array(
+                    'calendars' => $this->calendars,
+                    'controller_url' => $controllerUrl,
         ));
+    }
+
+    public function getIds()
+    {
+        return $this->calendars;
     }
 
 }
