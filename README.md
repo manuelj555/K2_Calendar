@@ -42,8 +42,8 @@ Con esto ya debemos tener el Módulo instalado en el sistema, sin embargo aun fa
 
 Con esto ya hemos registrado el módulo en nuestra aplicación, sin embargo aun faltan configurar algunas cosas para que todo funcione bien.
 
-1. Copiar el contenido de la carpeta public del Calendar en la carpeta public del Proyecto (para tener los css, img y js).
-2. Verificar que en nuestro template se esté cargando el jquery (antes de incluir el calendario).
+1. ejecutar el comando **php app/console asset:install** estando hubicados en la carpeta default de K2.
+2. Verificar que en nuestro template se esté cargando el jquery.
 
 Con esto ya debemos tener corriendo el calendario en la aplicación.
 
@@ -56,19 +56,46 @@ Cualquier persona que desea colaborar con el desarrollo es bienvenida :-)
 Usando el Calendario en mi propia vista
 ---------------------------------------
 
-Si deseamos incluir el calendario en una vista ó template particular, solo debemos añadirlo como un partial, ejemplo:
+Si deseamos incluir el calendario en una vista ó template particular, solo debemos añadirlo como una funcion twig, ejemplo:
 
-```html+php
+```html+jinja
+{% extends "default.twig" %}
 
-<?php
-//debemos haber cargado el jquery antes de incluir el calendar, de lo contrario no funcionará.
-//lo podemos incluir en el head con un Tag::printJs("jquery/jquery.min");
+{% block css %}
+{{ parent() }}
+{{ calendar_css() }}{# añadimos los css necesarios para el calendario usando la función calendar_css() #}
+{% endblock %}
 
-//solo se debe incluir el partial y queda listo.
-K2\View\View::partial("K2/Calendar:calendar");
+{% block javascript %}
+{{ calendar_js() }}{# añadimos los js necesarios para el calendario usando la función calendar_js() #}
+{% endblock %}
 
-//Tambien podemos darle un id especifico al div contenedor del calendario:
-K2\View\View::partial("K2/Calendar:calendar", false, array('id' => 'mi_calendario'));
+{% block content %}
+{{ calendar() }}{# añadimos el calendario #}
+{% endblock %}
+
 ```
 
-Si incluimos el partial en nuestra vista, se caragará allí el calendario, ademas podemos incluir el partial varias veceso, con lo que tendremos varios calendarios en una misma vista.
+Podemos llamar a la funcion calendar() varias veces, con lo que se crearán varios calendarios en una misma página
+
+Función calendar()
+------------------
+
+Esta función genera el calendario y acepta como parametro la vista con la lógica que lo crea, por si queremos cambiarla y además acepta el id que queramos que tenga el div que contiene al calendario.
+
+```html+jinja
+{{ calendar('@MiModulo/mi_vista_calendario', 'mi_propio_id') }}{# añadimos el calendario usando la vista y el id especificados #}
+{{ calendar(id='mi_id') }}{# añadimos el calendario con el id mi_id #}
+
+```
+
+Función calendar_js()
+------------------
+
+Esta función incluye los javascripts necesarios para que funcione el calendario, y además se le puede pasar un string con la url hasta el controlador que va a manejar la lógica del guardado de los eventos.
+
+```html+jinja
+{{ calendar_js() }}
+{{ calendar_js('@MiModulo/controlador') }} {# acá especificamos cual será el controlador que manejara la lógica del guardado de los eventos #}
+
+```
