@@ -7,29 +7,38 @@ K2_Calendar
 Instalacion
 -----------
 
-Solo debemos descargar e instalar la lib en **vendor/k2/K2/Calendar** y registrarla en el [AppKernel](https://github.com/manuelj555/k2/blob/master/doc/app_kernel.rst):
+la instalación más sencilla es mediante composer, agregar el paquete al composer.json del proyecto:
+
+```json
+    {
+        "require" : {
+            "k2/calendar": "dev-master"
+        }
+    }
+```                        
+                        
+Ejecutar el comando:
+
+``` 
+    composer install
+```
+
+Luego de tener los archivos descargados correctamente se debe agregar el módulo en el app/config/modules.php:
 
 ```php
 
-//archivo app/AppKernel.php
+<?php //archivo app/config/modules.php
 
-protected function registerModules()
-{
-    $modules = array(
-        ...
-        new K2\Calendar\Calendar(),
-    );
-
-    protected function registerRoutes()
-    {
-        return array(
-            '/'                 => 'Index',
-            ...
-            '/calendar'                 => 'K2/Calendar',
-        );
-    }
-}
+/* * *****************************************************************
+ * Iinstalación de módulos
+ */
+App::modules(array(
+    '/' => include APP_PATH . '/modules/Index/config.php',
+    '/calendar' => include composerPath('k2/calendar', 'K2/Calendar'),
+));
 ```
+
+Con esto ya debemos tener el Módulo instalado en el sistema, sin embargo aun faltan configurar algunas cosas para que todo funcione bien.
 
 Con esto ya hemos registrado el módulo en nuestra aplicación, sin embargo aun faltan configurar algunas cosas para que todo funcione bien.
 
