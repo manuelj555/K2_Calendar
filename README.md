@@ -33,8 +33,8 @@ Luego de tener los archivos descargados correctamente se debe agregar el módulo
  * Iinstalación de módulos
  */
 App::modules(array(
-    '/' => include APP_PATH . '/modules/Index/config.php',
-    '/calendar' => include composerPath('k2/calendar', 'K2/Calendar'),
+    '/' => APP_PATH . '/modules/Index/config.php',
+    '/calendar' => composerPath('k2/calendar', 'K2/Calendar'),
 ));
 ```
 
