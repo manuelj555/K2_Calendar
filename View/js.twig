@@ -1,0 +1,11 @@
+<script type="text/javascript" src="{{ asset("@K2Calendar/js/jquery-ui.custom.min.js") }}"></script>
+<script type="text/javascript" src="{{ asset("@K2Calendar/js/fullcalendar.min.js") }}"></script>
+<script type="text/javascript" src="{{ asset("@K2Calendar/js/k2_calendar.js") }}"></script>
+<script type="text/javascript">
+    $(function(){
+        {% set url = url(controller_url) %}
+        {% for id in calendars %}
+            new K2Calendar("#{{ id }}", "{{ url }}/");
+        {% endfor %}
+    })
+</script>

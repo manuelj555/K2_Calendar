@@ -46,38 +46,12 @@ class Calendar extends \Twig_Extension
 
     public function css()
     {
-        $html = <<<CSS
-<link rel="stylesheet" href="{{ asset("@K2Calendar/css/fullcalendar.css") }}" type="text/css" />
-<link rel="stylesheet" href="{{ asset("@K2Calendar/css/jquery-ui.custom.min.css") }}" type="text/css" />
-<style>
-    .k2_calendar_form dd{margin: 10px 0 0 0;font-weight: bold;}
-    .k2_calendar_form dt *{width: 100%}
-    .k2_calendar_form textarea{min-height: 80px}
-    .k2_calendar_form [type=color]{width: 80px}
-    .k2_calendar_errors{padding-left: 10px;display: none}
-</style>
-CSS;
-
-        return App::get('twig_string')->render($html);
+        return App::get('twig')->render('@K2Calendar/css.twig');
     }
 
     public function js($controllerUrl = '@K2Calendar/event')
     {
-        $html = <<<JS
-<script type="text/javascript" src="{{ asset("@K2Calendar/js/jquery-ui.custom.min.js") }}"></script>
-<script type="text/javascript" src="{{ asset("@K2Calendar/js/fullcalendar.min.js") }}"></script>
-<script type="text/javascript" src="{{ asset("@K2Calendar/js/k2_calendar.js") }}"></script>
-<script type="text/javascript">
-    $(function(){
-        {% set url = url(controller_url) %}
-        {% for id in calendars %}
-            new K2Calendar("#{{ id }}", "{{ url }}/");
-        {% endfor %}
-    })
-</script>
-JS;
-
-        return App::get('twig_string')->render($html, array(
+        return App::get('twig')->render('@K2Calendar/js.twig', array(
                     'calendars' => $this->calendars,
                     'controller_url' => $controllerUrl,
         ));
