@@ -37,7 +37,7 @@ class eventController extends Controller
     public function form_action($idEvent = null)
     {
         if (null !== $idEvent) {
-            if (!$event = Event::findByID($idEvent, false)) {
+            if (!$event = Event::findById($idEvent, false)) {
                 return new JsonResponse(array(
                     'message' => "No existe el Evento con id = $idEvent"
                         ), 404);
@@ -56,7 +56,7 @@ class eventController extends Controller
             $data = (array) $this->getRequest()->post('event');
 
             if (isset($data['id']) && is_numeric($data['id'])) {
-                if (!$event = Event::findByID($data['id'], false)) {
+                if (!$event = Event::findById($data['id'], false)) {
                     return new JsonResponse(array(
                         'message' => "No existe el Evento con id = {$data['id']}"
                             ), 404);
