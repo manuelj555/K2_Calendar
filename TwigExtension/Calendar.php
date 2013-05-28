@@ -2,12 +2,21 @@
 
 namespace K2\Calendar\TwigExtension;
 
-use K2\Kernel\App;
-
 class Calendar extends \Twig_Extension
 {
 
     protected $calendars = array();
+
+    /**
+     *
+     * @var \Twig_Environment
+     */
+    protected $twig;
+
+    public function initRuntime(\Twig_Environment $environment)
+    {
+        $this->twig = $environment;
+    }
 
     public function getName()
     {
@@ -39,19 +48,19 @@ class Calendar extends \Twig_Extension
 
         $this->calendars[$id] = $id;
 
-        return App::get('twig')->render($view, array(
+        return $this->twig->render($view, array(
                     'id' => $id,
         ));
     }
 
     public function css()
     {
-        return App::get('twig')->render('@K2Calendar/css.twig');
+        return $this->twig->render('@K2Calendar/css.twig');
     }
 
     public function js($controllerUrl = '@K2Calendar/event')
     {
-        return App::get('twig')->render('@K2Calendar/js.twig', array(
+        return $this->twig->render('@K2Calendar/js.twig', array(
                     'calendars' => $this->calendars,
                     'controller_url' => $controllerUrl,
         ));
